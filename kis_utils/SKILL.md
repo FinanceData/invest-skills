@@ -4,7 +4,8 @@ description: 한국투자증권 API를 파이썬에서 쉽고 간편하게 사�
 ---
 
 # KIS Utils
-한국투자증권 API를 파이썬에서 쉽고 간편하게 사용할 수 있도록 도와주는 유틸리티 모듈로 CLI 인터페이스를 제공합니다.
+이 스킬은 사용자가 한국투자증권 API를 사용하여 주식을 거래할 수 있도록 도와주는 
+kis_utils 유틸리티 함수를 손쉽게 사용할 수 있도록 돕는 스킬입니다.
 
 ## What this skill does
 접근 토큰 관리, 시세 조회, 잔고 확인 및 주문 기능을 간결한 인터페이스로 제공합니다. 
@@ -102,104 +103,67 @@ fi
 ```
 
 
-### kis_utils 라이브러리 설치
-이 스킬을 사용하려면 한국투자증권 API 계정과 `kis_utils` 라이브러리가 필요합니다. 
-운영체제에 따라 다음 명령어를 실행하여 kis_utils를 설치합니다.
+### kis_utils CLI 설치
 
-#### 윈도우 PowerShell
-```powershell
-$dir = Join-Path $env:TEMP "kis_utils"
-
-Remove-Item $dir -Recurse -Force -ErrorAction Ignore
-
-cd $env:TEMP
-git clone "https://github.com/FinanceData/kis_utils"
-
-cd $dir
-
-uv venv
-.\.venv\Scripts\Activate.ps1
-
-uv sync
-```
-
-#### 우분투 리눅스 Bash
 ```bash
-dir="$HOME/.kis_utils"
-
-rm -rf "$dir"
-
-cd "$HOME"
-git clone "https://github.com/FinanceData/kis_utils"
-
-cd "$dir"
-
-uv venv
-source .venv/bin/activate
-
-uv sync
+uv tool install kis-utils
 ```
 
+## 활용법
+CLI 인터페이스를 사용합니다. 
 
-## Example requests
-최대한 CLI 인터페이스를 사용합니다. 
-가장 간편하게 `uv` 명령어를 사용하여 실행할 수 있습니다. (또는 `python -m kis_utils` 사용 가능)
-실행할 때마다 해당 가상환경의 python을 사용해야 합니다. 
+```bash
+# 토큰 갱신
+kis-utils token
 
-현재가 조회 (기본 JSON 출력):
-```sh
-uv run kis_utils price 005930
-```
+# 현재가 조회 (기본 JSON 출력)
+kis-utils price 005930
 
-계좌 잔고 확인:
-```sh
-uv run kis_utils balance
-```
+# 사람이 읽기 좋은 포맷으로 조회
+kis-utils price 005930 --pretty
 
-주식 주문 (삼성전자 1주 시장가 매수):
-```sh
-uv run kis_utils buy 005930 -q 1 -p 0 -d 03
-```
+# 계좌 잔고 확인
+kis-utils balance --pretty
 
-주식 주문 (삼성전자 1주 지정가 매수):
-```sh
-uv run kis_utils buy 005930 -q 1 -p 80000 -d 01
-```
+# 주식 주문 (삼성전자 1주 시장가 매수)
+kis-utils order 005930 -t buy -q 1 -p 0
 
-주식 주문 (삼성전자 1주 지정가 매도):
-```sh
-uv run kis_utils sell 005930 -q 1 -p 80000 -d 01
-```
+# 주식 주문 (삼성전자 1주 시장가 매수)
+kis-utils order 005930 --type buy --qty 1 --price 0
 
-데이터 조회, 추세 확인:
-```sh
-uv run kis_utils daily 005930
-```
+# 주식 주문 (삼성전자 1주 지정가 매수)
+kis-utils order 005930 -t buy -q 1 -p 260000
 
-주문 및 체결 내역 조회:
-```sh
-uv run kis_utils history
-```
+# 주식 주문 (삼성전자 10주 지정가 매도)
+kis-utils order 005930 -t sell -q 10 -p 280000
 
-삼성전자 매수 가능 수량 조회
-```sh
-uv run kis_utils buyable 005930
+# 기간별 시세 (삼성전자 일자별 시세 조회)
+kis-utils daily 005930 --pretty
+
+# 매수가능 수량 조회 (삼성전자, 지정가 260000원 기준)
+kis-utils buyable -p 260000 005930 --pretty
+
+# 매수가능 수량 조회 (삼성전자, 시장가 기준)
+kis-utils buyable -p 0 005930 --pretty
+
+# 최근 7일간 주문 및 체결 내역 조회
+kis-utils history --pretty
 ```
 
 ### 주요 명령어
-- `token`: 접근 토큰 신규 발급
+- `token`: 접근 토큰 신규 발급 (토큰이 만료되었을 때 혹은 토큰이 없을 때 사용합니다)
 - `price <종목코드>`: 현재가 정보 조회
 - `daily <종목코드>`: 일/주/월 봉 데이터 조회
 - `balance`: 계좌 잔고 및 보유 종목 조회
 - `history`: 주문 및 체결 내역 조회
-- `order`: 주식 주문 (매수/매도)
+- `order <종목코드> --type <buy|sell> --qty <수량> --price <가격>`: 주식 주문 (매수/매도)
 - `buyable <종목코드>`: 매수 가능 수량 조회
 
 모든 명령어 뒤에 `--pretty`를 붙이면 한글 라벨이 포함된 가독성 좋은 화면을 볼 수 있습니다.
 ```
 
 ## Failure modes
-- KIS API KEY 또는 token이 유효하지 않은 경우 실행을 중단하고, 한국투자증권 API의 접근 권한(AppKey/Secret) 설정을 안내 합니다.
+- KIS API KEY 가 유효하지 않은 경우 실행을 중단하고, 한국투자증권 API의 접근 권한(AppKey/Secret) 설정을 안내 합니다.
 - 작업공간에 KIS API 연동을 위한 .env 설정 파일이 확인되지 않는 경우 웹 검색을 통해 실시간 시세를 확인하지 말고, 사용자에게 .env 파일 설정을 요청합니다.
 - 수신한 API의 에러 메시지를 사용자에게 그대로 전달하지 말고, 사용자 친화적인 메시지로 변환하여 전달합니다.
 
@@ -208,5 +172,3 @@ uv run kis_utils buyable 005930
 * 주문 요청 시 종목코드 뒤에 한글종목명을 함께 출력하면 사용자가 확인하기 쉽습니다.
 * 가격이나 수량을 묻는 경우 현재가를 기준으로 시장가, 지정가, 최유리호가, 최우선호가를 안내하고 사용자가 원하는 가격을 선택하도록 합니다.
 
-## Notes
-* 이 스킬은 사용자가 한국투자증권 API를 사용하여 주식을 거래할 수 있도록 도와주는 유틸리티 함수를 손쉽게 사용할 수 있도록 돕는 스킬입니다.
