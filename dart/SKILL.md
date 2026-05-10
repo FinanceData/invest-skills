@@ -81,13 +81,13 @@ fi
 다음과 같이 설치합니다.
 
 ```bash
-pip install opendartreader
+uv tool install opendartreader
 ```
 
 이미 설치되어 있고 업그레이드가 필요하다면 다음과 같이 설치합니다.
 
 ```bash
-pip install --upgrade opendartreader
+uv tool install --upgrade opendartreader
 ```
 
 ## 활용법
