@@ -5,7 +5,7 @@ description: 한국투자증권 API를 파이썬에서 쉽고 간편하게 사�
 
 # KIS Utils
 이 스킬은 사용자가 한국투자증권 API를 사용하여 주식을 거래할 수 있도록 도와주는 
-kis_utils 유틸리티 함수를 손쉽게 사용할 수 있도록 돕는 스킬입니다.
+kis-utils 유틸리티 함수를 손쉽게 사용할 수 있도록 돕는 스킬입니다.
 
 ## What this skill does
 접근 토큰 관리, 시세 조회, 잔고 확인 및 주문 기능을 간결한 인터페이스로 제공합니다. 
@@ -103,7 +103,7 @@ fi
 ```
 
 
-### kis_utils CLI 설치
+### kis-utils CLI 설치
 
 ```bash
 uv tool install kis-utils

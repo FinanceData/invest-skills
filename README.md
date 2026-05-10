@@ -4,7 +4,7 @@ AI 에이전트가 금융 투자를 더 쉽고 효율적으로 수행할 수 있
 
 ## Key Features
 - **DART 전자공시 연동**: 공시 검색, 재무제표 조회, 지분공시 추적, 사업보고서 분석 (`dart`)
-- **한국투자증권(KIS) 연동**: 국내 및 해외 주식 시세 조회, 잔고 확인, 주문 실행 (`kis_utils`)
+- **한국투자증권(KIS) 연동**: 국내 및 해외 주식 시세 조회, 잔고 확인, 주문 실행 (`kis-utils`)
 - **AI 에이전트 최적화**: LLM 에이전트가 직접 실행 가능한 CLI 및 스크립트 기반의 스킬 구성
 - **간결한 워크플로우**: `uv`를 활용한 빠른 의존성 관리 및 실행 환경 제공
 
@@ -16,7 +16,7 @@ invest-skills/
 │   └── scripts/         # 실행 스크립트 (hello.py)
 ├── dart/                # DART 전자공시 연동 스킬
 │   └── SKILL.md         # 공시 조회·분석 가이드 및 CLI 레퍼런스
-└── kis_utils/           # 한국투자증권 API 연동 유틸리티 스킬
+└── kis-utils/           # 한국투자증권 API 연동 유틸리티 스킬
     └── SKILL.md         # 상세 사용 가이드 및 환경 설정 안내
 ```
 
@@ -49,15 +49,22 @@ npm skills add FinanceData/invest-skills/hello
 npm skills add FinanceData/invest-skills/dart
 
 # 한국투자증권(KIS) 유틸리티 스킬만 설치
-npm skills add FinanceData/invest-skills/kis_utils
+npm skills add FinanceData/invest-skills/kis-utils
 
 ```
 
 ### 에이전트 지정 설치
 특정 에이전트에 스킬을 할당하여 설치할 수 있습니다.
 ```sh
-# 'my-invest-agent' 에이전트에 스킬 설치
-npm skills add FinanceData/invest-skills --agent my-invest-agent
+# 'claude-code' 에이전트에 스킬 설치
+npm skills add FinanceData/invest-skills --agent claude-code
+
+# 'codex' 에이전트에 스킬 설치
+npm skills add FinanceData/invest-skills --agent codex
+
+# 'codespaces' 에이전트에 스킬 설치
+npm skills add FinanceData/invest-skills --agent codespaces
+
 ```
 
 
