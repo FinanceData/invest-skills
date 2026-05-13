@@ -1,15 +1,19 @@
 ---
 name: DART 전자공시
-description: 금융감독원 DART 전자공시 시스템 API를 활용하여 공시 검색, 재무제표 조회, 지분 분석 등 투자에 필요한 공시 데이터를 수집·분석할 수 있도록 돕는 스킬입니다.
+description: 금융감독원 DART 전자공시 시스템의 CLI 도구 `dart`를 활용하여 공시 검색, 재무제표 조회, 지분 분석 등 투자에 필요한 공시 데이터를 수집·분석할 수 있도록 돕는 스킬입니다.
 ---
 
 # DART 전자공시
-이 스킬은 금융감독원 전자공시 시스템(DART)의 Open API를 파이썬 라이브러리 `OpenDartReader`와 CLI 인터페이스 `dart`를 통해 
+이 스킬은 금융감독원 전자공시 시스템(DART)의 CLI 도구 `dart`를 통해 
 투자에 필요한 공시 데이터를 손쉽게 조회·분석할 수 있도록 돕는 스킬입니다.
+
+> **⚠️ 중요: 이 스킬은 반드시 `dart` CLI 명령어만 사용합니다.**  
+> `OpenDartReader` 라이브러리를 import하여 파이썬 API 코드를 작성하지 마세요.  
+> 모든 조회·분석은 `dart` CLI 명령어를 실행하여 수행합니다.
 
 ## What this skill does
 공시 목록 검색, 기업 개황 조회, 재무제표 분석, 지분공시 추적, 주요사항보고서 조회, 공시 원문 다운로드 등 
-전자공시 데이터를 다양한 관점에서 활용할 수 있는 기능을 제공합니다.
+전자공시 데이터를 다양한 관점에서 활용할 수 있는 CLI 기능을 제공합니다.
 
 ## When to use
 * "삼성전자 최근 공시 목록 보여줘"
@@ -28,7 +32,6 @@ description: 금융감독원 DART 전자공시 시스템 API를 활용하여 공
 * 투자 의견이나 매수/매도 추천을 요청하는 경우
 * 실시간 주가 시세를 조회하는 경우 (→ `kis-utils` 스킬 사용)
 * 주식 매매 주문을 실행하는 경우 (→ `kis-utils` 스킬 사용)
-* 가상자산(암호화폐) 관련 조회·거래 (→ `upbit-utils` 스킬 사용)
 
 ## Prerequisites
 
@@ -77,23 +80,44 @@ else
 fi
 ```
 
-### OpenDartReader 설치
+### dart CLI 설치
 
-다음과 같이 설치합니다.
+`dart` CLI는 `opendartreader` 패키지에 포함되어 있습니다. 다음과 같이 설치합니다.
 
 ```bash
 uv tool install opendartreader
 ```
 
-이미 설치되어 있고 업그레이드가 필요하다면 다음과 같이 설치합니다.
+이미 설치되어 있고 업그레이드가 필요하다면 다음과 같이 실행합니다.
 
 ```bash
 uv tool install --upgrade opendartreader
 ```
 
+> **참고:** `opendartreader` 패키지는 `dart` CLI를 제공하기 위해 설치합니다.  
+> 파이썬 코드에서 `import OpenDartReader`로 직접 API를 호출하지 않습니다.
+
 ## 활용법
 
 CLI 인터페이스를 사용합니다.
+
+### PowerShell 한글 인코딩 설정
+
+`dart` CLI는 Python 기반이므로 PowerShell에서 한글이 깨질 수 있습니다.  
+**모든 `dart` 명령어 실행 전에 반드시 아래 환경변수를 설정하세요.**
+
+```powershell
+$env:PYTHONIOENCODING='utf-8'
+```
+
+매번 입력하지 않으려면 PowerShell 프로필(`$PROFILE`)에 추가합니다.
+
+```powershell
+# PowerShell 프로필에 영구 설정
+Add-Content $PROFILE "`n`$env:PYTHONIOENCODING='utf-8'"
+```
+
+### 명령어 예시
 
 ```bash
 # 공시 검색 (삼성전자, 2024년 이후 전체) - 기본 JSON 출력
@@ -242,6 +266,8 @@ dart list-presenter 삼성전자 --start 2026-01-01 --type 주요사항보고
 - 수신한 API의 에러 메시지를 사용자에게 그대로 전달하지 말고, 사용자 친화적인 메시지로 변환하여 전달합니다.
 
 ## Best practices
+* **반드시 `dart` CLI 명령어만 사용합니다.** 파이썬 스크립트에서 `OpenDartReader`를 import하여 API를 직접 호출하는 코드를 작성하지 않습니다.
+* **PowerShell에서는 `$env:PYTHONIOENCODING='utf-8'` 환경변수를 설정한 후 `dart` 명령어를 실행합니다.** 설정하지 않으면 한글 출력이 깨집니다.
 * 기업명과 종목코드 모두 사용 가능하지만, 정확한 조회를 위해 6자리 종목코드 사용을 권장합니다.
 * 대량 데이터 수집 시 API 호출 제한(분당 1,000회)을 고려하여 적절한 간격을 두고 요청합니다.
 * 공시 목록 검색 시 기업을 특정하지 않으면 최대 3개월까지만 조회 가능하므로 기간을 적절히 설정합니다.
