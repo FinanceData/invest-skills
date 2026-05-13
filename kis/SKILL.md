@@ -23,7 +23,7 @@ kis-utils 유틸리티 함수를 손쉽게 사용할 수 있도록 돕는 스킬
 ## When not to use
 * 투자의견을 물어보는 경우
 * 금융경제 지식 질문
-* 시장 분석
+* 시장 분석kis
 
 ## Prerequisites 
 
@@ -103,10 +103,10 @@ fi
 ```
 
 
-### kis-utils CLI 설치
+### kis_utils CLI 설치
 
 ```bash
-uv tool install kis-utils
+uv tool install kis_utils
 ```
 
 ## 활용법
@@ -114,40 +114,40 @@ CLI 인터페이스를 사용합니다.
 
 ```bash
 # 토큰 갱신
-kis-utils token
+kis_utils token
 
 # 현재가 조회 (기본 JSON 출력)
-kis-utils price 005930
+kis_utils price 005930
 
 # 사람이 읽기 좋은 포맷으로 조회
-kis-utils price 005930 --pretty
+kis_utils price 005930 --pretty
 
 # 계좌 잔고 확인
-kis-utils balance --pretty
+kis_utils balance --pretty
 
 # 주식 주문 (삼성전자 1주 시장가 매수)
-kis-utils order 005930 -t buy -q 1 -p 0
+kis_utils order 005930 -t buy -q 1 -p 0
 
 # 주식 주문 (삼성전자 1주 시장가 매수)
-kis-utils order 005930 --type buy --qty 1 --price 0
+kis_utils order 005930 --type buy --qty 1 --price 0
 
 # 주식 주문 (삼성전자 1주 지정가 매수)
-kis-utils order 005930 -t buy -q 1 -p 260000
+kis_utils order 005930 -t buy -q 1 -p 260000
 
 # 주식 주문 (삼성전자 10주 지정가 매도)
-kis-utils order 005930 -t sell -q 10 -p 280000
+kis_utils order 005930 -t sell -q 10 -p 280000
 
 # 기간별 시세 (삼성전자 일자별 시세 조회)
-kis-utils daily 005930 --pretty
+kis_utils daily 005930 --pretty
 
 # 매수가능 수량 조회 (삼성전자, 지정가 260000원 기준)
-kis-utils buyable -p 260000 005930 --pretty
+kis_utils buyable -p 260000 005930 --pretty
 
 # 매수가능 수량 조회 (삼성전자, 시장가 기준)
-kis-utils buyable -p 0 005930 --pretty
+kis_utils buyable -p 0 005930 --pretty
 
 # 최근 7일간 주문 및 체결 내역 조회
-kis-utils history --pretty
+kis_utils history --pretty
 ```
 
 ### 주요 명령어
